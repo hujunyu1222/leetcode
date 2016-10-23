@@ -1,0 +1,76 @@
+#include <cstdio>
+#include <string>
+#include <cstring>
+#include <iostream>
+using namespace std;
+
+
+int n;
+
+const int N = 35;
+const int mod = 1e9 + 7;
+
+typedef long long ll;
+
+/// 矩阵采用的数据结构
+struct Matrix {
+    /// 数据类型要看数据范围
+    ll a[N][N];
+    Matrix() {
+        memset(a, 0, sizeof(a));
+        for(int i = 0;i < N;i ++) {
+            a[i][i] = 1;
+        }
+    }
+};
+
+/// 矩阵乘法
+Matrix mat_mul(Matrix a,Matrix b) {
+    Matrix ans;
+    for(int i = 0;i < n;i ++) {
+        for(int j = 0;j < n;j ++) {
+            ans.a[i][j] = 0;
+            for(int k = 0;k < n;k ++) {
+                ans.a[i][j] += a.a[i][k] * b.a[k][j] % mod;
+            }
+        }
+    }
+    return ans;
+}
+
+
+/// 矩阵乘法的优化，适用于稀疏矩阵
+Matrix f_mat_mul(Matrix a,Matrix b) {
+    Matrix ans;
+    for(int i = 0;i < n;i ++) {
+        for(int j = 0;j < n;j ++) {
+            if(a.a[i][j]) {
+                for(int k = 0;k < n;k ++) {
+                    ans.a[i][k] += a.a[i][j] * b.a[j][k] % mod;
+                }
+            }
+        }
+    }
+    return ans;
+}
+
+Matrix fast_mod(Matrix A, ll k) {
+    Matrix ans;
+    while(k) {
+        if(k & 1) ans = mat_mul(ans, A);
+        A = mat_mul(A, A);
+        k = k >> 1;
+    }
+    return ans;
+}
+
+Matrix dfs(Matrix A, ll k) {
+    if(k == 1) return A;
+    Matrix ans;
+    ans = mat_mul(ans,fast_mod(A, k >> 1));
+    ans = mat_pls(ans,dfs(A, k >> 1));
+    if(k & 1) ans = mat_mul(ans,fast_mod(A, k));
+    return ans;
+}
+
+int main() {}
