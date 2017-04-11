@@ -6,7 +6,7 @@
     "isShellCommand": true,
     //"isBuildCommand": true,
     //"args": ["-std=c++11","-g","${file}", "-o", "${fileBasenameNoExtension}.exe"],
-    "args": ["-g","${file}", "-o", "${fileBasenameNoExtension}.exe"],
+    "args": ["-std=c++11","-g","${file}", "-o", "${fileBasenameNoExtension}.exe"],
     "showOutput": "always",
 
     // The problem is owned by the cpp language service.

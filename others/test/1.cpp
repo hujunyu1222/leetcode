@@ -1,6 +1,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include <cstdio>
+#include <memory.h>
+#include <vector>
 
 
 using namespace std;
@@ -9,7 +11,12 @@ class Base{
 private:
     int val;
 public:
+    Base(){}
+    Base(int x): val(x){}
+
     virtual void print(){cout << "Base" << endl;}
+
+    int getX(){return val;}
 
     static void staPrint(){
         cout << "call static Print function" << endl;
@@ -22,6 +29,15 @@ private:
     int val;
 public:
     void print(){cout << "Derived" << endl;}
+
+};
+
+class DDerived: public Derived{
+private:
+    int val;
+public:
+    void print(){cout << "DDerived" << endl;}
+
 
 };
 
@@ -41,23 +57,20 @@ int main(){
     Base *b = new Base;
     Derived * d = new Derived;
 
-    void (Base::*p)();
+    void* rawMemory = operator new[] (10 * sizeof (Base));
 
-    p = &Base::print;
+    Base *arrB = static_cast<Base*>(rawMemory);
 
-    Base::staPrint();
-
-    (b->*p)();
-
-    
-
-    try{
-        updateViaRef(dynamic_cast<Derived&> (*b) );
+    for (int i = 0; i < 10; i++){
+        new (arrB + i) Base(i);
     }
-    catch(exception e){
-        cout << "There is an exception!" << endl;
-        system("pause");
-    }
+
+    for (int i = 0; i < 10; i++){
+        cout << arrB[i].getX() << endl;
+    }  
+
+    vector<int> res;
+    res.push_back(1);
 
     system("pause");
 

@@ -19,7 +19,7 @@
         {
             "name": "Win32",
             //"includePath": ["D:/Visual Studio 2013/VC/include"],
-            "includePath": ["C:/MinGW/include","D:/Visual Studio 2013/VC/include"],
+            "includePath": ["C:/MinGW/lib/gcc/mingw32/4.7.1/include","D:/Visual Studio 2013/VC/include"],
             "browse" : {
                 "limitSymbolsToIncludedHeaders" : true,
                 "databaseFilename" : ""
